@@ -1,4 +1,4 @@
-import twitter_scraper
+import twitter_scraper_three as twitter_scraper
 import json
 
 
@@ -21,11 +21,10 @@ def main():
                 f.write(data)
                 return True
         except BaseException as e:
-            print e
+            print(e)
 
-    search_term = '#earthquake'
-    search_params = twitter_scraper.scraper.SearchParams().set_search(search_term).set_since("2017-02-01").set_until(
-        "2017-03-01")
+    search_term = 'meshivammathur'
+    search_params = twitter_scraper.scraper.SearchParams().set_username(search_term)
     tweets = twitter_scraper.scraper.Scraper.get_tweets(search_params)
 
     t_list = []
