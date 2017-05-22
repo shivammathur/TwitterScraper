@@ -1,21 +1,13 @@
-from __future__ import print_function
-from __future__ import unicode_literals
-from __future__ import division
-from __future__ import absolute_import
 from pyquery import PyQuery
 from .. import tweet
+
+import six.moves.http_cookiejar as cookiejar
+import six.moves.urllib as urllib
+
 import datetime
 import json
 import re
 import sys
-
-# TODO Shift urllib to future
-if sys.version_info >= (3, 0):
-    from urllib import request as urllib
-    import http.cookiejar as cookiejar
-else:
-    import urllib2 as urllib
-    import cookielib as cookiejar
 
 
 class Scraper(object):
@@ -128,7 +120,7 @@ class Scraper(object):
             url_lang = 'lang=' + search_params.lang + '&'
         else:
             url_lang = ''
-        url %= urllib.quote(url_get_data), url_lang, refresh_cursor
+        url %= urllib.parse.quote(url_get_data), url_lang, refresh_cursor
         # print(url)
 
         headers = [
@@ -141,7 +133,7 @@ class Scraper(object):
             ('Connection', "keep-alive")
         ]
 
-        opener = urllib.build_opener(urllib.HTTPCookieProcessor(cookie_jar))
+        opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cookie_jar))
         opener.addheaders = headers
         json_response = None
         try:
@@ -151,7 +143,7 @@ class Scraper(object):
             # print("Twitter weird response. Try to see on browser: ", url)
             print(
                 "Twitter weird response."
-                " Try to see on browser: https://twitter.com/search?q=%s&src=typd" % urllib.quote(
+                " Try to see on browser: https://twitter.com/search?q=%s&src=typd" % urllib.parse.quote(
                     url_get_data))
             print("Unexpected error:", sys.exc_info()[0])
 
