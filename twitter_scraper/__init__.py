@@ -1,2 +1,2 @@
-import tweet
-import scraper
+from . import tweet
+from . import scraper

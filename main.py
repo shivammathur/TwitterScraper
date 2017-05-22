@@ -1,5 +1,12 @@
-import twitter_scraper
+from __future__ import print_function
+from __future__ import unicode_literals
+from __future__ import division
+from __future__ import absolute_import
+from future import standard_library
+import twitter_scraper as twitter_scraper
 import json
+import codecs
+standard_library.install_aliases()
 
 
 def main():
@@ -7,25 +14,25 @@ def main():
         tweet_list.append(
             {
                 "username": t.username,
-                "tweet": t.retweets,
-                "retweets": t.text,
+                "retweet": t.retweets,
+                "tweet": t.text,
                 "mentions": t.mentions,
-                "hashtags": t.hashtags
+                "hashtags": t.hashtags,
+                "date": t.date.__str__()
             }
         )
         return tweet_list
 
     def print_to_file(data, filename):
         try:
-            with open(filename + '.json', 'a') as f:
+            with codecs.open(filename + '.json', 'a', 'utf-8') as f:
                 f.write(data)
                 return True
         except BaseException as e:
-            print e
+            print(e)
 
-    search_term = '#earthquake'
-    search_params = twitter_scraper.scraper.SearchParams().set_search(search_term).set_since("2017-02-01").set_until(
-        "2017-03-01")
+    search_term = '@meshivammathur'
+    search_params = twitter_scraper.scraper.SearchParams().set_username(search_term).set_max_tweets(400)
     tweets = twitter_scraper.scraper.Scraper.get_tweets(search_params)
 
     t_list = []
